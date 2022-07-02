@@ -94,7 +94,8 @@ public class TaskImpl implements Task {
     }
 
     /**
-     * This method implements setting of
+     * This method implements setting of start time of non-repetitive
+     * task and makes repetitive task non-repetitive
      */
     public void setTime(int time) {
         if (repeated == true) {
@@ -125,7 +126,7 @@ public class TaskImpl implements Task {
 
     /**
      * This method returns repeat interval for repetitive task and
-     * returns 0 for non-repetitive
+     * returns 0 for non-repetitive task
      */
     public int getRepeatInterval() {
         if (repeated == false) {
@@ -136,7 +137,7 @@ public class TaskImpl implements Task {
 
     /**
      * This method is setting start and end time of the repetitive tasks and
-     * repeat interval for them
+     * repeat interval for them, and makes non-repetitive task repetitive
      */
     public void setTime(int start, int end, int interval) {
         this.start = start;
