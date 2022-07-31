@@ -20,7 +20,6 @@ public class TaskImpl implements Task {
     private int interval;
     private int current;
 
-
     /**
      * This empty constructor constructs a task and doesn't set any properties
      */
@@ -202,7 +201,7 @@ public class TaskImpl implements Task {
     }
 
     /**
-     * This method returns task's parameters are a string values
+     * This method returns task's parameters as a string values
      * @return
      */
     @Override
