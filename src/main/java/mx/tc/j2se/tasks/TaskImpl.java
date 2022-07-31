@@ -173,7 +173,7 @@ public class TaskImpl implements Task {
     /**
      * This method is checking the task for repeatability
      * and returns its next fire time.
-     * @param current is the argument which set the current moment of time
+     * @param current is the argument which set the current time
      * @return
      */
     public int nextTimeAfter (int current) {
