@@ -76,4 +76,27 @@ public class TestActive {
         assertEquals(10, ActiveNonRepeated.nextTimeAfter(5));
 
     }
+    @Test
+    public void ExceptionsNonRepetitiveTime () {
+        TaskImpl ActiveNonRepeated = new TaskImpl("Non Repeated", -1);
+        TaskImpl ActiveNonRepeated2 = new TaskImpl("Non Repeated", 0);
+    }
+
+    @Test
+    public void ExceptionsNonRepetitiveTitle () {
+        TaskImpl ActiveNonRepeated = new TaskImpl(null, 1);
+        }
+    @Test
+    public void ExceptionsRepetitiveTime () {
+        TaskImpl ActiveRepeated = new TaskImpl("Repeated", -1, 2, 1);
+        TaskImpl ActiveRepeated2 = new TaskImpl("Repeated", 0, 2, 1);
+        TaskImpl ActiveRepeated3 = new TaskImpl("Repeated", 1, 0, 1);
+        TaskImpl ActiveRepeated4 = new TaskImpl("Repeated", 1, -1, 1);
+        TaskImpl ActiveRepeated5 = new TaskImpl("Repeated", 1, 2, 0);
+    }
+
+    @Test
+    public void ExceptionsRepetitiveTitle () {
+        TaskImpl ActiveRepeated = new TaskImpl(null, 1);
+    }
 }

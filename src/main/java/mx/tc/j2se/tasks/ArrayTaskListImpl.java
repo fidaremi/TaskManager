@@ -19,7 +19,14 @@ public class ArrayTaskListImpl implements ArrayTaskList {
      * @param task is an argument which set a task added to the list
      */
     public void add(Task task) {
-        if (task == null) {
+        try {
+            if (task == null) {
+                throw new NullPointerException("Task cannot be null");
+            }
+        }
+        catch (NullPointerException e) {
+            System.out.println("NullPointerException => " + e.getMessage());
+
         }
         Task[] addedTasks = new Task[tasks.length + 1];
         System.arraycopy(tasks, 0, addedTasks, 0, tasks.length);
@@ -31,11 +38,17 @@ public class ArrayTaskListImpl implements ArrayTaskList {
      * This method removes the specified task to the list
      * and returns true, if such a task was in the list
      * @param task is an argument which set a task removed from the list
-     * @return
      */
     public boolean remove(Task task) {
-        if (task != null) {
-            for (int i = 0; i < tasks.length; i++) {
+        try {
+            if (task == null) {
+                throw new NullPointerException("Task cannot be null");
+            }
+        }
+        catch (NullPointerException e) {
+            System.out.println("NullPointerException => " + e.getMessage());
+        }
+        for (int i = 0; i < tasks.length; i++) {
                 if (tasks[i].equals(task)) {
                     Task[] removedTasks = new Task[tasks.length-1];
                     System.arraycopy(tasks, 0, removedTasks, 0, i);
@@ -44,13 +57,11 @@ public class ArrayTaskListImpl implements ArrayTaskList {
                     return true;
                 }
             }
-        }
         return false;
     }
 
     /**
      * This method returns the array's size (quantity of elements)
-     * @return
      */
     public int size() {
         return tasks.length;
@@ -59,10 +70,16 @@ public class ArrayTaskListImpl implements ArrayTaskList {
     /**
      * This method returns a task which takes the specified place in the list
      * @param index is an argument which set the index of the task in the array
-     * @return
      */
     public Task getTask(int index) {
-        if (index >= tasks.length || index < 0) {
+        try {
+            if (index >= tasks.length || index < 0) {
+                throw new IndexOutOfBoundsException("Provided index exceeds the permissible limits for the " +
+                        "list or is a negative value");
+            }
+        }
+        catch (IndexOutOfBoundsException e) {
+            System.out.println("IndexOutOfBoundsException => " + e.getMessage());
         }
         return tasks[index];
     }
@@ -73,13 +90,20 @@ public class ArrayTaskListImpl implements ArrayTaskList {
      * and not later than the "to" time.
      * @param from is an argument which set the left bound of the time interval
      * @param to is an argument which set the right bound of the time interval
-     * @return
      */
     public ArrayTaskList incoming(int from, int to) {
         ArrayTaskList incomingTasks = new ArrayTaskListImpl();
+        try {
+            if (from < 0 || to <= 0) {
+                throw new IllegalArgumentException("From and to values cannot be negative or 0");
+            }
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException =>" + e.getMessage());
+        }
         if (to > from) {
             for (int i = 0; i < tasks.length; i++) {
-                if (getTask(i).isActive() && getTask(i).nextTimeAfter(from) > from &&
+                if (getTask(i).nextTimeAfter(from) > from &&
                         getTask(i).nextTimeAfter(from) < to) {
                     incomingTasks.add(getTask(i));
                 }
@@ -89,7 +113,6 @@ public class ArrayTaskListImpl implements ArrayTaskList {
 
     /**
      * This method returns array's members as a list of string values
-     * @return
      */
     @Override
     public String toString() {

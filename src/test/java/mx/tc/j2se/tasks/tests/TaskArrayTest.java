@@ -39,5 +39,4 @@ public class TaskArrayTest {
         tasks.add(ActiveRepeated2);
         assertEquals(3, tasks.size());
         }
-
 }

@@ -33,12 +33,26 @@ public class TaskImpl implements Task {
      * @param time is the argument which sets a start time of non-repetitive task
      */
     public TaskImpl(String title, int time) {
+        try {
+           if (time <= 0) { throw new IllegalArgumentException("Time value cannot be negative or 0");
+           }
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException => " + e.getMessage());
+            }
+        try {
+            if (title == null) { throw new NullPointerException("Title value cannot be null");
+            }
+        }
+        catch (NullPointerException e) {
+            System.out.println("NullPointerException => " + e.getMessage());
+
+        }
         this.active = false;
         this.title = title;
         this.repeated = false;
         this.time = time;
     }
-
     /**
      * This constructor constructs an inactive task to run within the specified time range
      * (including the start and the end time)
@@ -49,6 +63,46 @@ public class TaskImpl implements Task {
      * @param interval is the argument which sets interval for task repetition
      */
     public TaskImpl(String title, int start, int end, int interval) {
+        try {
+            if (start <= 0) {
+                throw new IllegalArgumentException("Start time value cannot be negative or 0");
+                }
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException => " + e.getMessage());
+        }
+        try {
+            if (end <= 0) {
+                throw new IllegalArgumentException("End time value cannot be negative or 0");
+            }
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException => " + e.getMessage());
+        }
+        try {
+            if (end <= start) {
+                throw new IllegalArgumentException("End time value should be greater than start time");
+            }
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException => " + e.getMessage());
+        }
+        try {
+            if (title == null) { throw new NullPointerException("Title value cannot be null");
+            }
+        }
+        catch (NullPointerException e) {
+            System.out.println("NullPointerException => " + e.getMessage());
+
+        }
+        try {
+            if (interval <= 0) {
+                throw new IllegalArgumentException("Interval value cannot be negative or 0");
+            }
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException => " + e.getMessage());
+        }
         this.active = false;
         this.repeated = true;
         this.title = title;
@@ -59,7 +113,6 @@ public class TaskImpl implements Task {
 
     /**
      * This method implements reading of the task name
-     * @return
      */
     public String getTitle() {
         return title;
@@ -70,12 +123,19 @@ public class TaskImpl implements Task {
      * @param title is the argument which sets a tasks title
      */
     public void setTitle(String title) {
+        try {
+            if (title == null) {
+                throw new NullPointerException("Title cannot be null");
+            }
+        }
+        catch (NullPointerException e) {
+            System.out.println("NullPointerException => " + e.getMessage());
+        }
         this.title = title;
     }
 
     /**
      * This method implements reading of the task status
-     * @return
      */
     public boolean isActive() {
         return active;
@@ -91,12 +151,10 @@ public class TaskImpl implements Task {
 
     /**
      * This method implements returning repetition start time of the task
-     * if the task is a repetitive one and execution time is the task is
-     * non-repetitive
-     * @return
+     * if the task is a repetitive one and execution time is the task is non-repetitive
      */
     public int getTime() {
-        if (repeated == true) {
+        if (repeated) {
             return start;
         }
         return time;
@@ -108,15 +166,21 @@ public class TaskImpl implements Task {
      * @param time is the argument which sets a start time of non-repetitive task
      */
     public void setTime(int time) {
-        if (repeated == true) {
+        try {
+            if (time <= 0) { throw new IllegalArgumentException("Time cannot be negative or 0");
+            }
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException => " + e.getMessage());
+        }
+        if (repeated) {
             repeated = false;
         }
-       this.time = time;
+        this.time = time;
     }
 
     /**
      * This method returns the start time of the execution
-     * @return
      */
     public int getStartTime() {
         if (repeated == false) {
@@ -127,10 +191,9 @@ public class TaskImpl implements Task {
 
     /**
      * This method returns the end time of the execution
-     * @return
      */
     public int getEndTime() {
-        if (repeated == false) {
+        if (!repeated) {
             return time;
         }
         return end;
@@ -139,10 +202,9 @@ public class TaskImpl implements Task {
     /**
      * This method returns repeat interval for repetitive task and
      * returns 0 for non-repetitive task
-     * @return
      */
     public int getRepeatInterval() {
-        if (repeated == false) {
+        if (!repeated) {
             return 0;
         }
         return interval;
@@ -156,6 +218,46 @@ public class TaskImpl implements Task {
      * @param interval is the argument which sets interval for task repetition
      */
     public void setTime(int start, int end, int interval) {
+        try {
+            if (start <= 0) {
+                throw new IllegalArgumentException("Start time cannot be negative or 0");
+            }
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException => " + e.getMessage());
+        }
+        try {
+            if (end <= 0) {
+                throw new IllegalArgumentException("End time cannot be negative or 0");
+            }
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException => " + e.getMessage());
+        }
+        try {
+            if (end <= start) {
+                throw new IllegalArgumentException("End time should be greater than start time");
+            }
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException => " + e.getMessage());
+        }
+        try {
+            if (title == null) { throw new NullPointerException("Title cannot be null");
+            }
+        }
+        catch (NullPointerException e) {
+            System.out.println("NullPointerException => " + e.getMessage());
+
+        }
+        try {
+            if (interval <= 0) {
+                throw new IllegalArgumentException("Interval value cannot be negative or 0");
+            }
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException => " + e.getMessage());
+        }
         this.start = start;
         this.interval = interval;
         this.end = end;
@@ -164,7 +266,6 @@ public class TaskImpl implements Task {
 
     /**
      * This method is checking the task for repeatability
-     * @return
      */
     public boolean isRepeated() {
         return repeated;
@@ -174,10 +275,9 @@ public class TaskImpl implements Task {
      * This method is checking the task for repeatability
      * and returns its next fire time.
      * @param current is the argument which set the current time
-     * @return
      */
     public int nextTimeAfter (int current) {
-        if (active && repeated == false) {
+        if (active && repeated == false && time > 0) {
             if (current < time) {
                 return time;
             }
@@ -202,7 +302,6 @@ public class TaskImpl implements Task {
 
     /**
      * This method returns task's parameters as a string values
-     * @return
      */
     @Override
     public String toString() {
