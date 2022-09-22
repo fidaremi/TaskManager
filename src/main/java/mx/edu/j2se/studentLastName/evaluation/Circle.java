@@ -8,9 +8,6 @@ public class Circle {
     };
 
     public Circle(int radius) {
-        if (radius < 0) {
-            throw new IndexOutOfBoundsException("Radius should be a positive value");
-        }
         setRadius(radius);
     }
 
