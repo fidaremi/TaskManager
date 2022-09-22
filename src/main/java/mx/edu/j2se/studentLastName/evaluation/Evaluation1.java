@@ -2,18 +2,23 @@ package mx.edu.j2se.studentLastName.evaluation;
 
 public class Evaluation1 {
     public static void main(String[] args) {
-        Circle Invalid = new Circle(-1);
-        Circle Circle1 = new Circle(10.1);
-        Circle Circle2 = new Circle(25.4);
-        Circle Circle3 = new Circle(17);
-        System.out.println(Circle1.getRadius());
-        System.out.println(Circle2.getRadius());
-        System.out.println(Circle3.getRadius());
+        try {
+           Circle invalid = new Circle(-1);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("IndexOutOfBoundsException => " + e.getMessage());
+        }
+
+        Circle circle1 = new Circle(10);
+        Circle circle2 = new Circle(25);
+        Circle circle3 = new Circle(17);
+        System.out.println(circle1.getRadius());
+        System.out.println(circle2.getRadius());
+        System.out.println(circle3.getRadius());
 
         Circle[] arrayOfCircles = new Circle[3];
-        arrayOfCircles[0] = Circle1;
-        arrayOfCircles[1] = Circle2;
-        arrayOfCircles[2] = Circle3;
+        arrayOfCircles[0] = circle1;
+        arrayOfCircles[1] = circle2;
+        arrayOfCircles[2] = circle3;
 
         System.out.println(arrayOfCircles[biggestCircle(arrayOfCircles)].getRadius());
 
