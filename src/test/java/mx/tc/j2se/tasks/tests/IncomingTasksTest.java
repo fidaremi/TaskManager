@@ -1,5 +1,6 @@
 package mx.tc.j2se.tasks.tests;
 
+import mx.tc.j2se.tasks.AbstractTaskList;
 import mx.tc.j2se.tasks.ArrayTaskList;
 import mx.tc.j2se.tasks.ArrayTaskListImpl;
 import mx.tc.j2se.tasks.TaskImpl;
@@ -10,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class IncomingTasksTest {
 
-    ArrayTaskList tasks;
+    ArrayTaskListImpl tasks;
 
     @Before
     public void beforeEach() {
@@ -30,7 +31,7 @@ public class IncomingTasksTest {
 
     @Test
     public void IncomingTaskInTimeFrame() {
-        ArrayTaskList incomingTasks = tasks.incoming(9, 35);
+        AbstractTaskList incomingTasks = tasks.incoming(9, 35);
         assertEquals(3, incomingTasks.size());
         System.out.println(incomingTasks);
         assertEquals(incomingTasks.getTask(0), tasks.getTask(0));
@@ -48,7 +49,7 @@ public class IncomingTasksTest {
 
     @Test
     public void IncomingTaskNonRepetitive() {
-        ArrayTaskList tasks = new ArrayTaskListImpl();
+        ArrayTaskListImpl tasks = new ArrayTaskListImpl();
         TaskImpl ActiveTask = new TaskImpl("Active Task", 10);
         ActiveTask.setActive(true);
         tasks.add(ActiveTask);

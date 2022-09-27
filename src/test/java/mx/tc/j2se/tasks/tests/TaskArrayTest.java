@@ -1,6 +1,5 @@
 package mx.tc.j2se.tasks.tests;
 
-import mx.tc.j2se.tasks.ArrayTaskList;
 import mx.tc.j2se.tasks.ArrayTaskListImpl;
 import mx.tc.j2se.tasks.TaskImpl;
 import org.junit.Test;
@@ -10,7 +9,7 @@ import static org.junit.Assert.*;
 public class TaskArrayTest {
     @Test
     public void TaskAdd() {
-        ArrayTaskList tasks = new ArrayTaskListImpl();
+        ArrayTaskListImpl tasks = new ArrayTaskListImpl();
         TaskImpl ActiveTask = new TaskImpl("Active Task", 10);
         tasks.add(ActiveTask);
         TaskImpl ActiveRepeated = new TaskImpl("Active Repeated", 10, 80, 5);
@@ -24,7 +23,7 @@ public class TaskArrayTest {
 
     @Test
     public void TaskRemove() {
-        ArrayTaskList tasks = new ArrayTaskListImpl();
+        ArrayTaskListImpl tasks = new ArrayTaskListImpl();
         TaskImpl ActiveTask = new TaskImpl("Active Task", 10);
         tasks.add(ActiveTask);
         TaskImpl ActiveRepeated = new TaskImpl("Active Repeated", 10, 80, 5);

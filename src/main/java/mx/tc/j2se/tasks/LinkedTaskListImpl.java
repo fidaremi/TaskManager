@@ -1,11 +1,16 @@
 package mx.tc.j2se.tasks;
 
 /**
+ * Class name: LinkedTaskListImpl
  * This class allows to add a task to the linked, it has
  * the same methods as ArrayTaskList and implements public interface  LinkedTaskList
  * Initial size of the lined list is 0
+ *
+ * @version info: 0.1 26 September 2022
+ * @author Mariia Kuntsevych
+ * Copyright notice: freeware
  */
-public class LinkedTaskListImpl implements LinkedTaskList {
+public class LinkedTaskListImpl extends AbstractTaskList {
      private Node first;
      private Node last;
      private int size = 0;
@@ -40,7 +45,7 @@ public class LinkedTaskListImpl implements LinkedTaskList {
      * This method adds the specified task to the list
      * @param task task is an argument which set a task added to the list
      */
-    public void add(Task task) {
+    @Override public void add(Task task) {
             if (task == null) {
                 throw new IllegalArgumentException("Task cannot be empty");
             }
@@ -60,7 +65,7 @@ public class LinkedTaskListImpl implements LinkedTaskList {
      * This method adds the specified task to the list
      * @param task is an argument which set a task added to the list
      */
-    public boolean remove(Task task){
+    @Override public boolean remove(Task task){
             if (task == null) {
                 throw new IllegalArgumentException("Task cannot be empty");
             }
@@ -91,7 +96,7 @@ public class LinkedTaskListImpl implements LinkedTaskList {
     /**
      * This method returns the array's size (quantity of elements)
      */
-    public int size() {
+    @Override public int size() {
         return size;
     }
 
@@ -99,7 +104,7 @@ public class LinkedTaskListImpl implements LinkedTaskList {
      * This method returns a task which takes the specified place in the list
      * @param index is an argument which set the index of the task in the array
      */
-    public Task getTask(int index) {
+    @Override public Task getTask(int index) {
             if (index >= size || index < 0) {
                 throw new IndexOutOfBoundsException("Provided index exceeds the permissible limits for the " +
                         "list or is a negative value");
@@ -119,7 +124,7 @@ public class LinkedTaskListImpl implements LinkedTaskList {
      * @param to is an argument which set the right bound of the time interval
      */
     @Override
-    public LinkedTaskListImpl incoming(int from, int to) {
+    public AbstractTaskList incoming(int from, int to) {
         LinkedTaskListImpl incomingTasks = new LinkedTaskListImpl();
             if (from < 0 || to <= 0) {
                 throw new IllegalArgumentException("From and to values cannot be negative or 0");

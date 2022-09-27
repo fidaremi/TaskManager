@@ -30,7 +30,7 @@ public class LinkedTaskListTest {
 
     @Test
     public void size() {
-        assertEquals(3, tasks.size());
+        assertEquals(2, tasks.size());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class LinkedTaskListTest {
     @Test
     public void IncomingTaskInTimeFrame() {
         LinkedTaskListImpl incomingTasks = (LinkedTaskListImpl) tasks.incoming(9, 35);
-        assertEquals(3, incomingTasks.size());
+        assertEquals(2, incomingTasks.size());
         System.out.println(incomingTasks);
         assertEquals(incomingTasks.getTask(0), tasks.getTask(0));
     }

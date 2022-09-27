@@ -3,10 +3,11 @@ package mx.tc.j2se.tasks;
 import java.util.Arrays;
 
 /**
+ * Class name: ArrayTaskListImpl
  * This class allows to add a task to the array
  * Initial size of the array is 0
  */
-public class ArrayTaskListImpl implements ArrayTaskList {
+public class ArrayTaskListImpl extends AbstractTaskList {
     private Task[] tasks = new Task[0];
 
     /**
@@ -18,7 +19,7 @@ public class ArrayTaskListImpl implements ArrayTaskList {
      * This method adds the specified task to the list
      * @param task is an argument which set a task added to the list
      */
-    public void add(Task task) {
+    @Override public void add(Task task) {
         try {
             if (task == null) {
                 throw new NullPointerException("Task cannot be null");
@@ -39,7 +40,7 @@ public class ArrayTaskListImpl implements ArrayTaskList {
      * and returns true, if such a task was in the list
      * @param task is an argument which set a task removed from the list
      */
-    public boolean remove(Task task) {
+    @Override public boolean remove(Task task) {
         try {
             if (task == null) {
                 throw new NullPointerException("Task cannot be null");
@@ -63,7 +64,7 @@ public class ArrayTaskListImpl implements ArrayTaskList {
     /**
      * This method returns the array's size (quantity of elements)
      */
-    public int size() {
+    @Override public int size() {
         return tasks.length;
     }
 
@@ -71,7 +72,7 @@ public class ArrayTaskListImpl implements ArrayTaskList {
      * This method returns a task which takes the specified place in the list
      * @param index is an argument which set the index of the task in the array
      */
-    public Task getTask(int index) {
+    @Override public Task getTask(int index) {
         try {
             if (index >= tasks.length || index < 0) {
                 throw new IndexOutOfBoundsException("Provided index exceeds the permissible limits for the " +
@@ -91,8 +92,8 @@ public class ArrayTaskListImpl implements ArrayTaskList {
      * @param from is an argument which set the left bound of the time interval
      * @param to is an argument which set the right bound of the time interval
      */
-    public ArrayTaskList incoming(int from, int to) {
-        ArrayTaskList incomingTasks = new ArrayTaskListImpl();
+    @Override public AbstractTaskList incoming(int from, int to) {
+        ArrayTaskListImpl incomingTasks = new ArrayTaskListImpl();
         try {
             if (from < 0 || to <= 0) {
                 throw new IllegalArgumentException("From and to values cannot be negative or 0");
