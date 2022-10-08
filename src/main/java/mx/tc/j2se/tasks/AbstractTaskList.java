@@ -11,7 +11,6 @@ package mx.tc.j2se.tasks;
  * Copyright notice: freeware
  */
 public abstract class AbstractTaskList {
-        private Task[] tasks = new Task[0];
         /**
          * This method adds a task to the array
          * @param task is an argument which set a task added to the array
@@ -48,27 +47,7 @@ public abstract class AbstractTaskList {
          * @return
          */
         public AbstractTaskList incoming(int from, int to) {
-                AbstractTaskList incomingTasks = new AbstractTaskList() {
-                        @Override
-                        public void add(Task task) {
-
-                        }
-
-                        @Override
-                        public boolean remove(Task task) {
-                                return false;
-                        }
-
-                        @Override
-                        public int size() {
-                                return 0;
-                        }
-
-                        @Override
-                        public Task getTask(int index) {
-                                return null;
-                        }
-                };
+                AbstractTaskList incomingTasks = TaskListFactory.createTaskList(ListTypes.types.LINKED);
                 try {
                         if (from < 0 || to <= 0) {
                                 throw new IllegalArgumentException("From and to values cannot be negative or 0");
@@ -78,7 +57,7 @@ public abstract class AbstractTaskList {
                         System.out.println("IllegalArgumentException =>" + e.getMessage());
                 }
                 if (to > from) {
-                        for (int i = 0; i < tasks.length; i++) {
+                        for (int i = 0; i < incomingTasks.size(); i++) {
                                 if (getTask(i).nextTimeAfter(from) > from &&
                                         getTask(i).nextTimeAfter(from) < to) {
                                         incomingTasks.add(getTask(i));

@@ -18,12 +18,13 @@ public class TaskListFactory {
      * @param type
      */
     public static AbstractTaskList createTaskList(ListTypes.types type) {
-        if (type.equals(ListTypes.types.ARRAY)){
-            return new ArrayTaskListImpl();
-        }
-        if (type.equals(ListTypes.types.LINKED)){
-            return new LinkedTaskListImpl();
-        }
-        return null;
+        return type.equals(ListTypes.types.ARRAY)
+                ? new ArrayTaskListImpl()
+                : new LinkedTaskListImpl();
+//        if (type.equals(ListTypes.types.ARRAY)){
+//            return new ArrayTaskListImpl();
+//        } else {
+//          return new LinkedTaskListImpl();
+//        }
     }
 }

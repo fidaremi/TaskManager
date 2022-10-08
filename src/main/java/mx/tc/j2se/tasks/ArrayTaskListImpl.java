@@ -9,7 +9,6 @@ import java.util.Arrays;
  */
 public class ArrayTaskListImpl extends AbstractTaskList {
     private Task[] tasks = new Task[0];
-
     /**
      * This empty constructor constructs an array and doesn't set any properties
      */
@@ -41,14 +40,9 @@ public class ArrayTaskListImpl extends AbstractTaskList {
      * @param task is an argument which set a task removed from the list
      */
     @Override public boolean remove(Task task) {
-        try {
-            if (task == null) {
+        if (task == null) {
                 throw new NullPointerException("Task cannot be null");
             }
-        }
-        catch (NullPointerException e) {
-            System.out.println("NullPointerException => " + e.getMessage());
-        }
         for (int i = 0; i < tasks.length; i++) {
                 if (tasks[i].equals(task)) {
                     Task[] removedTasks = new Task[tasks.length-1];
@@ -73,15 +67,10 @@ public class ArrayTaskListImpl extends AbstractTaskList {
      * @param index is an argument which set the index of the task in the array
      */
     @Override public Task getTask(int index) {
-        try {
-            if (index >= tasks.length || index < 0) {
+        if (index >= tasks.length || index < 0) {
                 throw new IndexOutOfBoundsException("Provided index exceeds the permissible limits for the " +
                         "list or is a negative value");
             }
-        }
-        catch (IndexOutOfBoundsException e) {
-            System.out.println("IndexOutOfBoundsException => " + e.getMessage());
-        }
         return tasks[index];
     }
 
@@ -94,14 +83,9 @@ public class ArrayTaskListImpl extends AbstractTaskList {
      */
     @Override public AbstractTaskList incoming(int from, int to) {
         ArrayTaskListImpl incomingTasks = new ArrayTaskListImpl();
-        try {
-            if (from < 0 || to <= 0) {
+        if (from < 0 || to <= 0) {
                 throw new IllegalArgumentException("From and to values cannot be negative or 0");
             }
-        }
-        catch (IllegalArgumentException e) {
-            System.out.println("IllegalArgumentException =>" + e.getMessage());
-        }
         if (to > from) {
             for (int i = 0; i < tasks.length; i++) {
                 if (getTask(i).nextTimeAfter(from) > from &&
