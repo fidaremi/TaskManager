@@ -1,5 +1,7 @@
 package mx.tc.j2se.tasks;
 
+import java.util.Objects;
+
 /**
  * Classname: TaskImpl
  * This class implements task management functionality
@@ -9,7 +11,7 @@ package mx.tc.j2se.tasks;
  * @author Mariia Kuntsevych
  * Copyright notice: freeware
  */
-public class TaskImpl implements Task {
+public class TaskImpl implements Task, Cloneable {
 
     private String title;
     private int time;
@@ -155,7 +157,7 @@ public class TaskImpl implements Task {
      * This method returns the end time of the execution
      */
     public int getEndTime() {
-        return repeated
+        return !repeated
                 ? time
                 : end;
 //        if (!repeated) {
@@ -169,9 +171,9 @@ public class TaskImpl implements Task {
      * returns 0 for non-repetitive task
      */
     public int getRepeatInterval() {
-        return repeated
-                ? interval
-                : 0;
+        return !repeated
+                ? 0
+                : interval;
 //        if (!repeated) {
 //            return 0;
 //        }
@@ -219,7 +221,7 @@ public class TaskImpl implements Task {
      * @param current is the argument which set the current time
      */
     public int nextTimeAfter (int current) {
-        if (active && repeated == false && time > 0) {
+        if (active && !repeated && time > 0) {
             if (current < time) {
                 return time;
             }
@@ -258,4 +260,46 @@ public class TaskImpl implements Task {
                 ", current=" + current +
                 '}';
     }
-}
+
+    @Override public int hashCode() {
+        return Objects.hash(title, getTime(), getStartTime(), getEndTime(), isActive(), isRepeated(), getRepeatInterval(), nextTimeAfter(current));
+    }
+
+    /**
+     * This method compares two tasks and consider them as equal if all their features are equal
+     * @param o is an objects what we are comparing with a task
+     * @return boolean value
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Task)) {
+            return false;
+        }
+        Task task = (Task) o;
+
+        if (Objects.equals(active, task.isActive())
+                && Objects.equals(title, task.getTitle())
+                && Objects.equals(getTime(), task.getTime())
+                && Objects.equals(getStartTime(), task.getStartTime())
+                && Objects.equals(getEndTime(), task.getEndTime())
+                && Objects.equals(isRepeated(), task.isRepeated())
+                && Objects.equals(getRepeatInterval(), task.getRepeatInterval())
+                && Objects.equals(nextTimeAfter(current), task.nextTimeAfter(current))) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return close of the task object
+     */
+    @Override
+    public Task clone() throws CloneNotSupportedException
+    {
+        return (Task) super.clone();
+    }
+
+   }

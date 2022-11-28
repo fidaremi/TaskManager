@@ -1,14 +1,15 @@
 package mx.tc.j2se.tasks;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * Class name: ArrayTaskListImpl
  * This class allows to add a task to the array
  * Initial size of the array is 0
  */
-public class ArrayTaskListImpl extends AbstractTaskList {
+public class ArrayTaskListImpl /*extends AbstractTaskList*/ implements ArrayTaskList, Cloneable {
     private Task[] tasks = new Task[0];
+
     /**
      * This empty constructor constructs an array and doesn't set any properties
      */
@@ -19,15 +20,9 @@ public class ArrayTaskListImpl extends AbstractTaskList {
      * @param task is an argument which set a task added to the list
      */
     @Override public void add(Task task) {
-        try {
             if (task == null) {
                 throw new NullPointerException("Task cannot be null");
             }
-        }
-        catch (NullPointerException e) {
-            System.out.println("NullPointerException => " + e.getMessage());
-
-        }
         Task[] addedTasks = new Task[tasks.length + 1];
         System.arraycopy(tasks, 0, addedTasks, 0, tasks.length);
         addedTasks[addedTasks.length - 1] = task;
@@ -67,7 +62,7 @@ public class ArrayTaskListImpl extends AbstractTaskList {
      * @param index is an argument which set the index of the task in the array
      */
     @Override public Task getTask(int index) {
-        if (index >= tasks.length || index < 0) {
+        if (index >= size() || index < 0) {
                 throw new IndexOutOfBoundsException("Provided index exceeds the permissible limits for the " +
                         "list or is a negative value");
             }
@@ -81,20 +76,20 @@ public class ArrayTaskListImpl extends AbstractTaskList {
      * @param from is an argument which set the left bound of the time interval
      * @param to is an argument which set the right bound of the time interval
      */
-    @Override public AbstractTaskList incoming(int from, int to) {
-        ArrayTaskListImpl incomingTasks = new ArrayTaskListImpl();
-        if (from < 0 || to <= 0) {
-                throw new IllegalArgumentException("From and to values cannot be negative or 0");
-            }
-        if (to > from) {
-            for (int i = 0; i < tasks.length; i++) {
-                if (getTask(i).nextTimeAfter(from) > from &&
-                        getTask(i).nextTimeAfter(from) < to) {
-                    incomingTasks.add(getTask(i));
-                }
-            }
-        } return incomingTasks;
-    }
+//    @Override public AbstractTaskList incoming(int from, int to) {
+//        ArrayTaskListImpl incomingTasks = new ArrayTaskListImpl();
+//        if (from < 0 || to <= 0) {
+//                throw new IllegalArgumentException("From and to values cannot be negative or 0");
+//            }
+//        if (to > from) {
+//            for (int i = 0; i < tasks.length; i++) {
+//                if (getTask(i).nextTimeAfter(from) > from &&
+//                        getTask(i).nextTimeAfter(from) < to) {
+//                    incomingTasks.add(getTask(i));
+//                }
+//            }
+//        } return incomingTasks;
+//    }
 
     /**
      * This method returns array's members as a list of string values
@@ -104,6 +99,105 @@ public class ArrayTaskListImpl extends AbstractTaskList {
         return "ArrayTaskListImpl{" +
                 "tasks=" + Arrays.toString(tasks) +
                 '}';
+    }
+
+    /**
+     * The method iterates over the elements of the task list and returns the values(iterators)
+     * @return iterator
+     */
+    @Override
+    public Iterator<Task> iterator() {
+        return new Iterator<Task>() {
+            private int iterator = -1;
+            private int index = 0;
+
+            /**
+             * Returns true if next would return an element rather than throwing an exception
+             * @return true if the iteration has more elements
+             */
+            @Override
+            public boolean hasNext() {
+            if (index < tasks.length) {
+                    return true;
+                }
+                return false;
+            }
+
+            /**
+             * @return the next element in the iteration
+             * Throws:
+             * NoSuchElementException – if the iteration has no more elements
+             */
+            @Override
+            public Task next() {
+                if (!this.hasNext()) {
+                    throw new NoSuchElementException("There is no next element in the list");
+                } else {
+                    iterator = index;
+                    return getTask(index++);
+
+                }
+
+            }
+        };
+    }
+
+
+    /**
+     * Returns the hash code value for ArrayTaskListImpl.
+     *
+     * <p>This implementation uses exactly the code that is used to define the
+     * list hash function in the documentation for the {@link List#hashCode}
+     * method.
+     *
+     * @return the hash code value for this list
+     */
+
+    @Override
+    public int hashCode() {
+        int hashCode = 1;
+        for (Task task : this.tasks)
+            hashCode = 31*hashCode + (task==null ? 0 : task.hashCode());
+        return hashCode;
+    }
+
+    /**
+     * This method compares two lists of tasks and consider them as equal
+     * if the both lists contain the same tasks in the same order
+     * @param o is an objects what we are comparing with a list of tasks
+     * @return boolean value
+     */
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof ArrayTaskListImpl)) {
+            return false;
+        }
+        ArrayTaskListImpl arrayTaskList = (ArrayTaskListImpl) o;
+
+        if (Objects.equals(this.size(), arrayTaskList.size())) {
+            for (int i = 0; i < arrayTaskList.size(); i++) {
+                if (!getTask(i).equals(arrayTaskList.getTask(i))) {
+                    return false;
+                }
+            } return true;
+        } return false;
+    }
+
+    /**
+     * @return close of the ArrayTaskListImpl object
+     */
+    @Override
+    public ArrayTaskListImpl clone()
+    {
+        try {
+            return (ArrayTaskListImpl) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
 }
 

@@ -1,5 +1,7 @@
 package mx.tc.j2se.tasks;
 
+import java.util.Iterator;
+
 /**
  *
  */
@@ -24,9 +26,17 @@ public interface LinkedTaskList {
      */
     Task getTask(int index);
 
-    /**
-     * @param from
-     * @param to
-     */
-    LinkedTaskList incoming(int from, int to);
+    Iterator<Task> iterator();
+
+    boolean equals(Object o);
+
+    int hashCode();
+
+    LinkedTaskListImpl clone();
+
+//    /**
+//     * @param from
+//     * @param to
+//     */
+    //LinkedTaskList incoming(int from, int to);
 }

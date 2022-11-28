@@ -1,4 +1,5 @@
 package mx.tc.j2se.tasks;
+import java.util.Iterator;
 
 /**
  * This interface defines the basic structure of array with tasks
@@ -32,13 +33,21 @@ public interface ArrayTaskList {
      */
     Task getTask(int index);
 
-    /**
-     * This method returns a subset of tasks
-     * that are scheduled for execution at least once after the "from" time,
-     * and not later than the "to" time.
-     * @param from is an argument which set the left bound of the time interval
-     * @param to is an argument which set the right bound of the time interval
-     * @return
-     */
-    ArrayTaskList incoming(int from, int to);
+//    /**
+//     * This method returns a subset of tasks
+//     * that are scheduled for execution at least once after the "from" time,
+//     * and not later than the "to" time.
+//     * @param from is an argument which set the left bound of the time interval
+//     * @param to is an argument which set the right bound of the time interval
+//     * @return
+//     */
+    //ArrayTaskList incoming(int from, int to);
+
+    Iterator<Task> iterator();
+
+    boolean equals(Object o);
+
+    int hashCode();
+
+    ArrayTaskList clone();
 }

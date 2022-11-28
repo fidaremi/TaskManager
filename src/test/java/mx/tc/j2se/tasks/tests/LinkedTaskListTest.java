@@ -39,21 +39,21 @@ public class LinkedTaskListTest {
         System.out.println(tasks);
     }
 
-    @Test
-    public void IncomingTaskInTimeFrame() {
-        LinkedTaskListImpl incomingTasks = (LinkedTaskListImpl) tasks.incoming(9, 35);
-        assertEquals(2, incomingTasks.size());
-        System.out.println(incomingTasks);
-        assertEquals(incomingTasks.getTask(0), tasks.getTask(0));
-    }
-
-    @Test
-    public void IncomingTaskNotInTimeFrame() {
-        assertEquals(0, tasks.incoming(22,29).size());
-    }
-
-    @Test
-    public void IncomingTaskOverlapping() {
-        assertEquals(1, tasks.incoming(10,20).size());
-    }
+//    @Test
+//    public void IncomingTaskInTimeFrame() {
+//        LinkedTaskListImpl incomingTasks = (LinkedTaskListImpl) tasks.incoming(9, 35);
+//        assertEquals(2, incomingTasks.size());
+//        System.out.println(incomingTasks);
+//        assertEquals(incomingTasks.getTask(0), tasks.getTask(0));
+//    }
+//
+//    @Test
+//    public void IncomingTaskNotInTimeFrame() {
+//        assertEquals(0, tasks.incoming(22,29).size());
+//    }
+//
+//    @Test
+//    public void IncomingTaskOverlapping() {
+//        assertEquals(1, tasks.incoming(10,20).size());
+//    }
 }

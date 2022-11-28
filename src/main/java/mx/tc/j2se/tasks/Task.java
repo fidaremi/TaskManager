@@ -82,4 +82,5 @@ public interface Task {
      * @return
      */
     int nextTimeAfter (int current);
+
 }
