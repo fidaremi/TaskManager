@@ -31,8 +31,9 @@ public class TaskImpl implements Task, Cloneable {
     /**
      * This constructor constructs an inactive task to run at a specified time
      * without repeating with a given name
+     *
      * @param title is the argument which sets a tasks title
-     * @param time is the argument which sets a start time of non-repetitive task
+     * @param time  is the argument which sets a start time of non-repetitive task
      */
     public TaskImpl(String title, int time) {
         if (time <= 0) {
@@ -46,31 +47,33 @@ public class TaskImpl implements Task, Cloneable {
         this.repeated = false;
         this.time = time;
     }
+
     /**
      * This constructor constructs an inactive task to run within the specified time range
      * (including the start and the end time)
      * with the set repetition interval and with a given name
-     * @param title is the argument which sets a tasks title
-     * @param start is the argument which sets start time of repetitive task
-     * @param end is the argument which sets end time of repetitive task
+     *
+     * @param title    is the argument which sets a tasks title
+     * @param start    is the argument which sets start time of repetitive task
+     * @param end      is the argument which sets end time of repetitive task
      * @param interval is the argument which sets interval for task repetition
      */
     public TaskImpl(String title, int start, int end, int interval) {
         if (start <= 0) {
             throw new IllegalArgumentException("Start time value cannot be negative or 0");
-                }
+        }
         if (end <= 0) {
             throw new IllegalArgumentException("End time value cannot be negative or 0");
-            }
+        }
         if (end <= start) {
             throw new IllegalArgumentException("End time value should be greater than start time");
-            }
+        }
         if (title == null) {
             throw new NullPointerException("Title value cannot be null");
-            }
+        }
         if (interval <= 0) {
             throw new IllegalArgumentException("Interval value cannot be negative or 0");
-            }
+        }
         this.active = false;
         this.repeated = true;
         this.title = title;
@@ -88,6 +91,7 @@ public class TaskImpl implements Task, Cloneable {
 
     /**
      * This method implements setting of the task name
+     *
      * @param title is the argument which sets a tasks title
      */
     public void setTitle(String title) {
@@ -106,6 +110,7 @@ public class TaskImpl implements Task, Cloneable {
 
     /**
      * This method implements setting of the task status
+     *
      * @param active is the argument which sets task to active status
      */
     public void setActive(boolean active) {
@@ -114,7 +119,7 @@ public class TaskImpl implements Task, Cloneable {
 
     /**
      * This method implements returning repetition start time of the task
-     * if the task is a repetitive one and execution time is the task is non-repetitive
+     * if the task is a repetitive one and execution time if the task is non-repetitive
      */
     public int getTime() {
         return repeated
@@ -129,11 +134,13 @@ public class TaskImpl implements Task, Cloneable {
     /**
      * This method implements setting of start time of non-repetitive
      * task and makes repetitive task non-repetitive
+     *
      * @param time is the argument which sets a start time of non-repetitive task
      */
     public void setTime(int time) {
-        if (time <= 0) { throw new IllegalArgumentException("Time cannot be negative or 0");
-            }
+        if (time <= 0) {
+            throw new IllegalArgumentException("Time cannot be negative or 0");
+        }
         if (repeated) {
             repeated = false;
         }
@@ -141,7 +148,8 @@ public class TaskImpl implements Task, Cloneable {
     }
 
     /**
-     * This method returns the start time of the execution
+     * This method returns the start time of the execution: time value for non-repetitive
+     * task and start time value for repetitive task
      */
     public int getStartTime() {
         return !repeated
@@ -154,7 +162,8 @@ public class TaskImpl implements Task, Cloneable {
     }
 
     /**
-     * This method returns the end time of the execution
+     * This method returns the end time of the execution: time value for non-repetitive
+     * task and end time value for repetitive task
      */
     public int getEndTime() {
         return !repeated
@@ -183,25 +192,24 @@ public class TaskImpl implements Task, Cloneable {
     /**
      * This method is setting start and end time of the repetitive tasks and
      * repeat interval for them, and makes non-repetitive task repetitive
-     * @param start is the argument which sets start time of repetitive task
-     * @param end is the argument which sets end time of repetitive task
+     *
+     * @param start    is the argument which sets start time of repetitive task
+     * @param end      is the argument which sets end time of repetitive task
      * @param interval is the argument which sets interval for task repetition
      */
     public void setTime(int start, int end, int interval) {
         if (start <= 0) {
-                throw new IllegalArgumentException("Start time cannot be negative or 0");
-            }
+            throw new IllegalArgumentException("Start time cannot be negative or 0");
+        }
         if (end <= 0) {
-                throw new IllegalArgumentException("End time cannot be negative or 0");
-            }
+            throw new IllegalArgumentException("End time cannot be negative or 0");
+        }
         if (end <= start) {
-                throw new IllegalArgumentException("End time should be greater than start time");
-            }
-        if (title == null) { throw new NullPointerException("Title cannot be null");
-            }
+            throw new IllegalArgumentException("End time should be greater than start time");
+        }
         if (interval <= 0) {
-                throw new IllegalArgumentException("Interval value cannot be negative or 0");
-            }
+            throw new IllegalArgumentException("Interval value cannot be negative or 0");
+        }
         this.start = start;
         this.interval = interval;
         this.end = end;
@@ -216,12 +224,13 @@ public class TaskImpl implements Task, Cloneable {
     }
 
     /**
-     * This method is checking the task for repeatability
+     * This method is checking the active task for repeatability
      * and returns its next fire time.
+     *
      * @param current is the argument which set the current time
      */
-    public int nextTimeAfter (int current) {
-        if (active && !repeated && time > 0) {
+    public int nextTimeAfter(int current) {
+        if (active && !repeated) {
             if (current < time) {
                 return time;
             }
@@ -261,12 +270,14 @@ public class TaskImpl implements Task, Cloneable {
                 '}';
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return Objects.hash(title, getTime(), getStartTime(), getEndTime(), isActive(), isRepeated(), getRepeatInterval(), nextTimeAfter(current));
     }
 
     /**
      * This method compares two tasks and consider them as equal if all their features are equal
+     *
      * @param o is an objects what we are comparing with a task
      * @return boolean value
      */
@@ -297,9 +308,11 @@ public class TaskImpl implements Task, Cloneable {
      * @return close of the task object
      */
     @Override
-    public Task clone() throws CloneNotSupportedException
-    {
-        return (Task) super.clone();
+    public TaskImpl clone() {
+        try {
+            return (TaskImpl) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
-
-   }
+}

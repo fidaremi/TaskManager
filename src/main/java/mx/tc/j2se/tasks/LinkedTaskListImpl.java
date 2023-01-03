@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author Mariia Kuntsevych
  * Copyright notice: freeware
  */
-public class LinkedTaskListImpl /*extends AbstractTaskList*/ implements LinkedTaskList, Cloneable {
+public class LinkedTaskListImpl extends AbstractTaskList implements Cloneable /*LinkedTaskList*/ {
     private Node first;
      private Node last;
      private int size = 0;
@@ -120,28 +120,28 @@ public class LinkedTaskListImpl /*extends AbstractTaskList*/ implements LinkedTa
         return tasksList.task;
     }
 
-//    /**
-//     * This method returns a subset of tasks
-//     * that are scheduled for execution at least once after the "from" time,
-//     * and not later than the "to" time.
-//     * @param from is an argument which set the left bound of the time interval
-//     * @param to is an argument which set the right bound of the time interval
-//     */
-//    @Override
-//    public AbstractTaskList incoming(int from, int to) {
-//        LinkedTaskListImpl incomingTasks = new LinkedTaskListImpl();
-//            if (from < 0 || to <= 0) {
-//                throw new IllegalArgumentException("From and to values cannot be negative or 0");
-//            }
-//        if (to > from) {
-//            for (int i = 0; i < size; i++) {
-//                if (getTask(i).nextTimeAfter(from) > from &&
-//                        getTask(i).nextTimeAfter(from) < to) {
-//                    incomingTasks.add(getTask(i));
-//                }
-//            }
-//        } return incomingTasks;
-//    }
+    /**
+     * This method returns a subset of tasks
+     * that are scheduled for execution at least once after the "from" time,
+     * and not later than the "to" time.
+     * @param from is an argument which set the left bound of the time interval
+     * @param to is an argument which set the right bound of the time interval
+     */
+    @Override
+    public AbstractTaskList incoming(int from, int to) {
+        LinkedTaskListImpl incomingTasks = new LinkedTaskListImpl();
+            if (from < 0 || to <= 0) {
+                throw new IllegalArgumentException("From and to values cannot be negative or 0");
+            }
+        if (to > from) {
+            for (int i = 0; i < size; i++) {
+                if (getTask(i).nextTimeAfter(from) > from &&
+                        getTask(i).nextTimeAfter(from) < to) {
+                    incomingTasks.add(getTask(i));
+                }
+            }
+        } return incomingTasks;
+    }
 
     /**
      * This method returns array's members as a list of string values
@@ -245,7 +245,7 @@ public class LinkedTaskListImpl /*extends AbstractTaskList*/ implements LinkedTa
         }
 
     /**
-     * @return close of the LinkedTaskListImpl object
+     * @return clone of the LinkedTaskListImpl object
      */
     @Override
     public LinkedTaskListImpl clone()

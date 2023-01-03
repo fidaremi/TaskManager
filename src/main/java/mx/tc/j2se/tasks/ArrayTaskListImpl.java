@@ -7,7 +7,7 @@ import java.util.*;
  * This class allows to add a task to the array
  * Initial size of the array is 0
  */
-public class ArrayTaskListImpl /*extends AbstractTaskList*/ implements ArrayTaskList, Cloneable {
+public class ArrayTaskListImpl extends AbstractTaskList implements Cloneable /*ArrayTaskList*/ {
     private Task[] tasks = new Task[0];
 
     /**
@@ -76,20 +76,20 @@ public class ArrayTaskListImpl /*extends AbstractTaskList*/ implements ArrayTask
      * @param from is an argument which set the left bound of the time interval
      * @param to is an argument which set the right bound of the time interval
      */
-//    @Override public AbstractTaskList incoming(int from, int to) {
-//        ArrayTaskListImpl incomingTasks = new ArrayTaskListImpl();
-//        if (from < 0 || to <= 0) {
-//                throw new IllegalArgumentException("From and to values cannot be negative or 0");
-//            }
-//        if (to > from) {
-//            for (int i = 0; i < tasks.length; i++) {
-//                if (getTask(i).nextTimeAfter(from) > from &&
-//                        getTask(i).nextTimeAfter(from) < to) {
-//                    incomingTasks.add(getTask(i));
-//                }
-//            }
-//        } return incomingTasks;
-//    }
+    @Override public AbstractTaskList incoming(int from, int to) {
+        ArrayTaskListImpl incomingTasks = new ArrayTaskListImpl();
+        if (from < 0 || to <= 0) {
+                throw new IllegalArgumentException("From and to values cannot be negative or 0");
+            }
+        if (to > from) {
+            for (int i = 0; i < tasks.length; i++) {
+                if (getTask(i).nextTimeAfter(from) > from &&
+                        getTask(i).nextTimeAfter(from) < to) {
+                    incomingTasks.add(getTask(i));
+                }
+            }
+        } return incomingTasks;
+    }
 
     /**
      * This method returns array's members as a list of string values
@@ -135,13 +135,10 @@ public class ArrayTaskListImpl /*extends AbstractTaskList*/ implements ArrayTask
                 } else {
                     iterator = index;
                     return getTask(index++);
-
                 }
-
             }
         };
     }
-
 
     /**
      * Returns the hash code value for ArrayTaskListImpl.
@@ -188,7 +185,7 @@ public class ArrayTaskListImpl /*extends AbstractTaskList*/ implements ArrayTask
     }
 
     /**
-     * @return close of the ArrayTaskListImpl object
+     * @return clone of the ArrayTaskListImpl object
      */
     @Override
     public ArrayTaskListImpl clone()

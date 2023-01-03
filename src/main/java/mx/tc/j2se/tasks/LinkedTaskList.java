@@ -34,9 +34,9 @@ public interface LinkedTaskList {
 
     LinkedTaskListImpl clone();
 
-//    /**
-//     * @param from
-//     * @param to
-//     */
-    //LinkedTaskList incoming(int from, int to);
+    /**
+     * @param from
+     * @param to
+     */
+    LinkedTaskList incoming(int from, int to);
 }

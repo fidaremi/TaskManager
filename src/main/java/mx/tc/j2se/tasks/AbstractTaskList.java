@@ -12,7 +12,7 @@ import java.util.Iterator;
  * @author Mariia Kuntsevych
  * Copyright notice: freeware
  */
-public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
+public abstract class AbstractTaskList implements Iterable<Task> {
 
         /**
          * This method adds a task to the array
@@ -41,31 +41,30 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
          */
         public abstract Task getTask(int index);
 
-//        /**
-//         * This method returns a subset of tasks
-//         * that are scheduled for execution at least once after the "from" time,
-//         * and not later than the "to" time.
-//         * @param from is an argument which set the left bound of the time interval
-//         * @param to is an argument which set the right bound of the time interval
-//         * @return
-//         */
-//        public AbstractTaskList incoming(int from, int to) {
-//                AbstractTaskList incomingTasks = TaskListFactory.createTaskList(ListTypes.types.LINKED);
-//                if (from < 0 || to <= 0) {
-//                                throw new IllegalArgumentException("From and to values cannot be negative or 0");
-//                        }
-//                if (to > from) {
-//                        for (int i = 0; i < incomingTasks.size(); i++) {
-//                                if (getTask(i).nextTimeAfter(from) > from &&
-//                                        getTask(i).nextTimeAfter(from) < to) {
-//                                        incomingTasks.add(getTask(i));
-//                                }
-//                        }
-//                } return incomingTasks;
-//        }
+        /**
+         * This method returns a subset of tasks
+         * that are scheduled for execution at least once after the "from" time,
+         * and not later than the "to" time.
+         * @param from is an argument which set the left bound of the time interval
+         * @param to is an argument which set the right bound of the time interval
+         * @return
+         */
+        public AbstractTaskList incoming(int from, int to) {
+                AbstractTaskList incomingTasks = TaskListFactory.createTaskList(ListTypes.types.LINKED);
+                if (from < 0 || to <= 0) {
+                                throw new IllegalArgumentException("From and to values cannot be negative or 0");
+                        }
+                if (to > from) {
+                        for (int i = 0; i < incomingTasks.size(); i++) {
+                                if (getTask(i).nextTimeAfter(from) > from &&
+                                        getTask(i).nextTimeAfter(from) < to) {
+                                        incomingTasks.add(getTask(i));
+                                }
+                        }
+                } return incomingTasks;
+        }
 
         public abstract Iterator<Task> iterator();
-
 
 }
 
