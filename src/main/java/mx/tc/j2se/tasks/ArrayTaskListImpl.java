@@ -1,6 +1,7 @@
 package mx.tc.j2se.tasks;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Class name: ArrayTaskListImpl
@@ -9,7 +10,6 @@ import java.util.*;
  */
 public class ArrayTaskListImpl extends AbstractTaskList implements Cloneable /*ArrayTaskList*/ {
     private Task[] tasks = new Task[0];
-
     /**
      * This empty constructor constructs an array and doesn't set any properties
      */
@@ -69,27 +69,27 @@ public class ArrayTaskListImpl extends AbstractTaskList implements Cloneable /*A
         return tasks[index];
     }
 
-    /**
-     * This method returns a subset of tasks
-     * that are scheduled for execution at least once after the "from" time,
-     * and not later than the "to" time.
-     * @param from is an argument which set the left bound of the time interval
-     * @param to is an argument which set the right bound of the time interval
-     */
-    @Override public AbstractTaskList incoming(int from, int to) {
-        ArrayTaskListImpl incomingTasks = new ArrayTaskListImpl();
-        if (from < 0 || to <= 0) {
-                throw new IllegalArgumentException("From and to values cannot be negative or 0");
-            }
-        if (to > from) {
-            for (int i = 0; i < tasks.length; i++) {
-                if (getTask(i).nextTimeAfter(from) > from &&
-                        getTask(i).nextTimeAfter(from) < to) {
-                    incomingTasks.add(getTask(i));
-                }
-            }
-        } return incomingTasks;
-    }
+//    /**
+//     * This method returns a subset of tasks
+//     * that are scheduled for execution at least once after the "from" time,
+//     * and not later than the "to" time.
+//     * @param from is an argument which set the left bound of the time interval
+//     * @param to is an argument which set the right bound of the time interval
+//     */
+//    @Override public ArrayTaskList incoming(int from, int to) {
+//        ArrayTaskListImpl incomingTasks = new ArrayTaskListImpl();
+//        if (from < 0 || to <= 0) {
+//                throw new IllegalArgumentException("From and to values cannot be negative or 0");
+//            }
+//        if (to > from) {
+//            for (int i = 0; i < size(); i++) {
+//                if (getTask(i).nextTimeAfter(from) > from &&
+//                        getTask(i).nextTimeAfter(from) < to) {
+//                    incomingTasks.add(getTask(i));
+//                }
+//            }
+//        } return incomingTasks;
+//    }
 
     /**
      * This method returns array's members as a list of string values
@@ -196,5 +196,18 @@ public class ArrayTaskListImpl extends AbstractTaskList implements Cloneable /*A
             return null;
         }
     }
+
+    /**
+     * This method allows to work with ArrayList as with the stream.
+     * @returns the stream on the base of ArrayList
+     */
+    @Override
+    public Stream<Task> getStream() {
+        if (this.size() == 0){
+            throw new IllegalStateException("List cannot be empty");
+        }else
+        return Stream.of(tasks);
+    };
+
 }
 

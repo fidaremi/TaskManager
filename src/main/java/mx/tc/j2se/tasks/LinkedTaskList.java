@@ -1,6 +1,7 @@
 package mx.tc.j2se.tasks;
 
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  *
@@ -34,9 +35,11 @@ public interface LinkedTaskList {
 
     LinkedTaskListImpl clone();
 
-    /**
-     * @param from
-     * @param to
-     */
-    LinkedTaskList incoming(int from, int to);
+//    /**
+//     * @param from
+//     * @param to
+//     */
+//    LinkedTaskList incoming(int from, int to);
+
+    public Stream<Task> getStream();
 }

@@ -1,6 +1,7 @@
 package mx.tc.j2se.tasks;
 
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * Class-name: AbstractTaskList
@@ -49,22 +50,47 @@ public abstract class AbstractTaskList implements Iterable<Task> {
          * @param to is an argument which set the right bound of the time interval
          * @return
          */
-        public AbstractTaskList incoming(int from, int to) {
-                AbstractTaskList incomingTasks = TaskListFactory.createTaskList(ListTypes.types.LINKED);
-                if (from < 0 || to <= 0) {
-                                throw new IllegalArgumentException("From and to values cannot be negative or 0");
-                        }
-                if (to > from) {
-                        for (int i = 0; i < incomingTasks.size(); i++) {
-                                if (getTask(i).nextTimeAfter(from) > from &&
-                                        getTask(i).nextTimeAfter(from) < to) {
-                                        incomingTasks.add(getTask(i));
-                                }
-                        }
-                } return incomingTasks;
+        public final AbstractTaskList incoming(int from, int to) {
+                AbstractTaskList incomingTasks = returnListType();
+                getStream().filter(task -> (from > 0 && to > 0
+                                                && task.nextTimeAfter(from) > from
+                                                && task.nextTimeAfter(from) < to)).forEach(incomingTasks::add);
+//                if (from < 0 || to <= 0) {
+//                                throw new IllegalArgumentException("From and to values cannot be negative or 0");
+//                        }
+//                if (to > from) {
+//                        for (int i = 0; i < size(); i++) {
+//                                if (getTask(i).nextTimeAfter(from) > from &&
+//                                        getTask(i).nextTimeAfter(from) < to) {
+//                                        incomingTasks.add(getTask(i));
+//                                }
+//                        }
+//                }
+                return incomingTasks;
         }
 
+        /**
+         * This method creates object of LinkedTaskListImpl or ArrayTaskListImpl
+         * on the base of which type is required
+         * @return object of LinkedTaskListImpl or ArrayTaskListImpl
+         */
+        public AbstractTaskList returnListType () {
+                return this.getClass().getName().equals("LinkedTaskListImpl")
+                        ? TaskListFactory.createTaskList(ListTypes.types.LINKED)
+                        : TaskListFactory.createTaskList(ListTypes.types.ARRAY);
+        }
+
+        /**
+         * The method iterates over the elements of the task list and returns the values(iterators)
+         * @return iterator
+         */
         public abstract Iterator<Task> iterator();
+
+        /**
+         * @return a stream on the base of collection (LinkedList or ArrayList)
+         */
+        public abstract Stream<Task> getStream();
+
 
 }
 

@@ -1,9 +1,7 @@
 package mx.tc.j2se.tasks;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Class name: LinkedTaskListImpl
@@ -120,28 +118,28 @@ public class LinkedTaskListImpl extends AbstractTaskList implements Cloneable /*
         return tasksList.task;
     }
 
-    /**
-     * This method returns a subset of tasks
-     * that are scheduled for execution at least once after the "from" time,
-     * and not later than the "to" time.
-     * @param from is an argument which set the left bound of the time interval
-     * @param to is an argument which set the right bound of the time interval
-     */
-    @Override
-    public AbstractTaskList incoming(int from, int to) {
-        LinkedTaskListImpl incomingTasks = new LinkedTaskListImpl();
-            if (from < 0 || to <= 0) {
-                throw new IllegalArgumentException("From and to values cannot be negative or 0");
-            }
-        if (to > from) {
-            for (int i = 0; i < size; i++) {
-                if (getTask(i).nextTimeAfter(from) > from &&
-                        getTask(i).nextTimeAfter(from) < to) {
-                    incomingTasks.add(getTask(i));
-                }
-            }
-        } return incomingTasks;
-    }
+//    /**
+//     * This method returns a subset of tasks
+//     * that are scheduled for execution at least once after the "from" time,
+//     * and not later than the "to" time.
+//     * @param from is an argument which set the left bound of the time interval
+//     * @param to is an argument which set the right bound of the time interval
+//     */
+//    @Override
+//    public LinkedTaskList incoming(int from, int to) {
+//        LinkedTaskListImpl incomingTasks = new LinkedTaskListImpl();
+//            if (from < 0 || to <= 0) {
+//                throw new IllegalArgumentException("From and to values cannot be negative or 0");
+//            }
+//        if (to > from) {
+//            for (int i = 0; i < size; i++) {
+//                if (getTask(i).nextTimeAfter(from) > from &&
+//                        getTask(i).nextTimeAfter(from) < to) {
+//                    incomingTasks.add(getTask(i));
+//                }
+//            }
+//        } return incomingTasks;
+//    }
 
     /**
      * This method returns array's members as a list of string values
@@ -257,4 +255,19 @@ public class LinkedTaskListImpl extends AbstractTaskList implements Cloneable /*
         }
     }
 
+    /**
+     * This method allows to work with LinkedList as with the stream.
+     * @returns the stream on the base of LinkedList
+     */
+    @Override
+    public Stream<Task> getStream() {
+        if (this.size() == 0) {
+            throw new IllegalStateException("List cannot be empty");
+        }
+        Task[] tasks = new Task[size()];
+        for (int i = 0; i < size(); ++i) {
+            tasks[i] = getTask(i);
+        }
+        return Arrays.stream(tasks);
+    }
 }

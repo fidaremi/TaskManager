@@ -12,6 +12,7 @@ import static org.junit.Assert.assertNotEquals;
 public class LinkedTaskListImplTest {
 
     AbstractTaskList tasks = TaskListFactory.createTaskList(ListTypes.types.LINKED);
+//    LinkedTaskListImpl tasks = new LinkedTaskListImpl();
     TaskImpl ActiveTask = new TaskImpl("Active Task", 10);
     TaskImpl ActiveRepeated = new TaskImpl("Active Repeated", 10, 30, 10);
     TaskImpl ActiveRepeated2 = new TaskImpl("Active Repeated2", 11, 41, 10);
@@ -73,6 +74,7 @@ public class LinkedTaskListImplTest {
     @Test
     public void IncomingTaskInTimeFrame() {
         AbstractTaskList incomingTasks = tasks.incoming(9, 45);
+//        LinkedTaskList incomingTasks = tasks.incoming(9, 45);
         assertEquals(3, incomingTasks.size());
         System.out.println(incomingTasks);
         assertEquals(incomingTasks.getTask(0), tasks.getTask(0));
@@ -133,6 +135,7 @@ public class LinkedTaskListImplTest {
     @Test
     public void testNonEqualHashCode() {
         AbstractTaskList tasks2 = TaskListFactory.createTaskList(ListTypes.types.LINKED);
+//        LinkedTaskListImpl tasks2 = new LinkedTaskListImpl();
         tasks2.add(ActiveRepeated);
         tasks2.add(ActiveTask);
         tasks2.add(ActiveRepeated);
@@ -143,6 +146,7 @@ public class LinkedTaskListImplTest {
     @Test
     public void testEqualHashCode() {
         AbstractTaskList tasks3 = TaskListFactory.createTaskList(ListTypes.types.LINKED);
+//        LinkedTaskListImpl tasks3 = new LinkedTaskListImpl();
         tasks3.add(ActiveTask);
         tasks3.add(ActiveRepeated);
         tasks3.add(ActiveRepeated2);
@@ -153,6 +157,7 @@ public class LinkedTaskListImplTest {
     @Test
     public void testNonEqual() {
         AbstractTaskList tasks2 = TaskListFactory.createTaskList(ListTypes.types.LINKED);
+//        LinkedTaskListImpl tasks2 = new LinkedTaskListImpl();
         tasks2.add(ActiveRepeated);
         tasks2.add(ActiveTask);
         tasks2.add(ActiveRepeated);
@@ -162,6 +167,7 @@ public class LinkedTaskListImplTest {
     @Test
     public void testEqual() {
         AbstractTaskList tasks3 = TaskListFactory.createTaskList(ListTypes.types.LINKED);
+//        LinkedTaskListImpl tasks3 = new LinkedTaskListImpl();
         tasks3.add(ActiveTask);
         tasks3.add(ActiveRepeated);
         tasks3.add(ActiveRepeated2);
@@ -172,7 +178,20 @@ public class LinkedTaskListImplTest {
     @Test
     public void testClone() {
         AbstractTaskList tasks4 = ((LinkedTaskListImpl) tasks).clone();
+//        LinkedTaskListImpl tasks4 = new LinkedTaskListImpl();
         assertEquals(tasks4, tasks);
         assertEquals(tasks4.hashCode(), tasks.hashCode());
+    }
+
+    @Test
+    public void testStream() {
+        tasks.getStream().forEach(s -> System.out.println(s));
+
+        AbstractTaskList tasks3 = TaskListFactory.createTaskList(ListTypes.types.LINKED);
+        try {
+            tasks3.getStream();}
+        catch (Exception e) {
+            System.out.println("IllegalArgumentException => " + e.getMessage());
+        }
     }
 }
