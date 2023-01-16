@@ -185,13 +185,25 @@ public class LinkedTaskListImplTest {
 
     @Test
     public void testStream() {
-        tasks.getStream().forEach(s -> System.out.println(s));
+        AbstractTaskList task5 = TaskListFactory.createTaskList(ListTypes.types.LINKED);
+        tasks.getStream().filter(s -> s.getTitle() == "Active Task").forEach((task5::add));
+        assertEquals(tasks.getTask(0), task5.getTask(0));}
 
+    @Test
+    public void testExceptionMessage() {
         AbstractTaskList tasks3 = TaskListFactory.createTaskList(ListTypes.types.LINKED);
+        assertEquals(tasks3.size(), 0);
         try {
-            tasks3.getStream();}
-        catch (Exception e) {
+            tasks3.getStream();
+        } catch (Exception e) {
             System.out.println("IllegalArgumentException => " + e.getMessage());
+            assertEquals("List cannot be empty", e.getMessage());
         }
+    }
+
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public void testIllegalArgumentException()
+    { AbstractTaskList tasks3 = TaskListFactory.createTaskList(ListTypes.types.LINKED);
+        tasks3.getStream();
     }
 }

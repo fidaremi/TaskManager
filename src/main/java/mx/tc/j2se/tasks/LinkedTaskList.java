@@ -35,11 +35,15 @@ public interface LinkedTaskList {
 
     LinkedTaskListImpl clone();
 
-//    /**
-//     * @param from
-//     * @param to
-//     */
-//    LinkedTaskList incoming(int from, int to);
+    /**
+     * This method returns a subset of tasks
+     * that are scheduled for execution at least once after the "from" time,
+     * and not later than the "to" time.
+     * @param from is an argument which set the left bound of the time interval
+     * @param to is an argument which set the right bound of the time interval
+     * @return
+     */
+    LinkedTaskList incoming(int from, int to);
 
     public Stream<Task> getStream();
 }

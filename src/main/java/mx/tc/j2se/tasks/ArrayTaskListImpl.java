@@ -1,7 +1,10 @@
 package mx.tc.j2se.tasks;
 
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 
 /**
  * Class name: ArrayTaskListImpl
@@ -27,6 +30,7 @@ public class ArrayTaskListImpl extends AbstractTaskList implements Cloneable /*A
         System.arraycopy(tasks, 0, addedTasks, 0, tasks.length);
         addedTasks[addedTasks.length - 1] = task;
         tasks = addedTasks;
+
     }
 
     /**
@@ -117,7 +121,7 @@ public class ArrayTaskListImpl extends AbstractTaskList implements Cloneable /*A
              */
             @Override
             public boolean hasNext() {
-            if (index < tasks.length) {
+            if (index < size()) {
                     return true;
                 }
                 return false;
@@ -152,10 +156,13 @@ public class ArrayTaskListImpl extends AbstractTaskList implements Cloneable /*A
 
     @Override
     public int hashCode() {
-        int hashCode = 1;
-        for (Task task : this.tasks)
-            hashCode = 31*hashCode + (task==null ? 0 : task.hashCode());
-        return hashCode;
+//        int hashCode = 1;
+//        for (Task task : this.tasks)
+//            hashCode = 31*hashCode + (task==null ? 0 : task.hashCode());
+//        return hashCode;
+        return getStream()
+                .mapToInt(Objects::hashCode)
+                .reduce(1, (a, b) -> 31 * a + b);
     }
 
     /**
@@ -180,7 +187,7 @@ public class ArrayTaskListImpl extends AbstractTaskList implements Cloneable /*A
                 if (!getTask(i).equals(arrayTaskList.getTask(i))) {
                     return false;
                 }
-            } return true;
+            }return true;
         } return false;
     }
 
@@ -204,7 +211,7 @@ public class ArrayTaskListImpl extends AbstractTaskList implements Cloneable /*A
     @Override
     public Stream<Task> getStream() {
         if (this.size() == 0){
-            throw new IllegalStateException("List cannot be empty");
+            throw new IllegalArgumentException("List cannot be empty");
         }else
         return Stream.of(tasks);
     };

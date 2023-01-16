@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -129,6 +130,7 @@ public class ArrayTaskListImplTest {
 
     @Test
     public void testHashCode() {
+        tasks.hashCode();
         System.out.println(tasks.hashCode());
     }
 
@@ -141,6 +143,7 @@ public class ArrayTaskListImplTest {
         tasks2.add(ActiveRepeated);
         System.out.println(tasks2.hashCode());
         assertNotEquals(tasks2.hashCode(), tasks.hashCode());
+
     }
 
     @Test
@@ -185,13 +188,27 @@ public class ArrayTaskListImplTest {
 
     @Test
     public void testStream() {
-        tasks.getStream().forEach(s -> System.out.println(s));
+        AbstractTaskList task5 = TaskListFactory.createTaskList(ListTypes.types.ARRAY);
+        tasks.getStream().filter(s -> s.getTitle() == "Active Task").forEach((task5::add));
+        assertEquals(1, tasks.getStream().filter(s -> s.getTitle() == "Active Task").count());
+        assertEquals(tasks.getTask(0), task5.getTask(0));}
 
+    @Test
+        public void testExceptionMessage() {
         AbstractTaskList tasks3 = TaskListFactory.createTaskList(ListTypes.types.ARRAY);
+        assertEquals(tasks3.size(), 0);
         try {
-            tasks3.getStream();}
-        catch (Exception e) {
+            tasks3.getStream();
+        } catch (Exception e) {
             System.out.println("IllegalArgumentException => " + e.getMessage());
+            assertEquals("List cannot be empty", e.getMessage());
         }
     }
+
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public void testIllegalArgumentException()
+    { AbstractTaskList tasks3 = TaskListFactory.createTaskList(ListTypes.types.ARRAY);
+        tasks3.getStream();
+    }
+
 }

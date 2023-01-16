@@ -27,4 +27,15 @@ public class TaskListFactory {
 //          return new LinkedTaskListImpl();
 //        }
     }
+
+    /**
+     * This method creates object of LinkedTaskListImpl or ArrayTaskListImpl
+     * on the base of which type is required
+     * @return object of LinkedTaskListImpl or ArrayTaskListImpl
+     */
+    public static AbstractTaskList returnListType(AbstractTaskList list) {
+            return list.getClass().getSimpleName().equals("LinkedTaskListImpl")
+                ? TaskListFactory.createTaskList(ListTypes.types.LINKED)
+                : TaskListFactory.createTaskList(ListTypes.types.ARRAY);
+    }
 }

@@ -206,10 +206,14 @@ public class LinkedTaskListImpl extends AbstractTaskList implements Cloneable /*
      */
     @Override
     public int hashCode() {
-        int hashCode = 1;
-        for (Node tasksList = first; tasksList!=null; tasksList = tasksList.next)
-            hashCode = 31*hashCode + (tasksList==null ? 0 : tasksList.task.hashCode());
-        return hashCode;
+//        int hashCode = 1;
+//        for (Node tasksList = first; tasksList!=null; tasksList = tasksList.next)
+//            hashCode = 31*hashCode + (tasksList==null ? 0 : tasksList.task.hashCode());
+//        return hashCode;
+
+        return getStream()
+                .mapToInt(Objects::hashCode)
+                .reduce(1, (a, b) -> 31 * a + b);
     }
 
     /**
@@ -240,7 +244,7 @@ public class LinkedTaskListImpl extends AbstractTaskList implements Cloneable /*
                 }
             } return true;
         } return false;
-        }
+    }
 
     /**
      * @return clone of the LinkedTaskListImpl object
@@ -262,7 +266,7 @@ public class LinkedTaskListImpl extends AbstractTaskList implements Cloneable /*
     @Override
     public Stream<Task> getStream() {
         if (this.size() == 0) {
-            throw new IllegalStateException("List cannot be empty");
+            throw new IllegalArgumentException("List cannot be empty");
         }
         Task[] tasks = new Task[size()];
         for (int i = 0; i < size(); ++i) {

@@ -51,13 +51,13 @@ public abstract class AbstractTaskList implements Iterable<Task> {
          * @return
          */
         public final AbstractTaskList incoming(int from, int to) {
-                AbstractTaskList incomingTasks = returnListType();
+                if (from < 0 || to <= 0) {
+                      throw new IllegalArgumentException("From and to values cannot be negative or 0");
+                }
+                AbstractTaskList incomingTasks = TaskListFactory.returnListType(this);
                 getStream().filter(task -> (from > 0 && to > 0
                                                 && task.nextTimeAfter(from) > from
                                                 && task.nextTimeAfter(from) < to)).forEach(incomingTasks::add);
-//                if (from < 0 || to <= 0) {
-//                                throw new IllegalArgumentException("From and to values cannot be negative or 0");
-//                        }
 //                if (to > from) {
 //                        for (int i = 0; i < size(); i++) {
 //                                if (getTask(i).nextTimeAfter(from) > from &&
@@ -70,18 +70,7 @@ public abstract class AbstractTaskList implements Iterable<Task> {
         }
 
         /**
-         * This method creates object of LinkedTaskListImpl or ArrayTaskListImpl
-         * on the base of which type is required
-         * @return object of LinkedTaskListImpl or ArrayTaskListImpl
-         */
-        public AbstractTaskList returnListType () {
-                return this.getClass().getName().equals("LinkedTaskListImpl")
-                        ? TaskListFactory.createTaskList(ListTypes.types.LINKED)
-                        : TaskListFactory.createTaskList(ListTypes.types.ARRAY);
-        }
-
-        /**
-         * The method iterates over the elements of the task list and returns the values(iterators)
+         * The method iterates over the elements of the task list and returns the values (iterators)
          * @return iterator
          */
         public abstract Iterator<Task> iterator();
@@ -90,7 +79,6 @@ public abstract class AbstractTaskList implements Iterable<Task> {
          * @return a stream on the base of collection (LinkedList or ArrayList)
          */
         public abstract Stream<Task> getStream();
-
 
 }
 
